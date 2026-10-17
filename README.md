@@ -1,7 +1,7 @@
 # Le Cabinet de Cécile
 
 Site de [lecabinetdececile.com](https://www.lecabinetdececile.com), cabinet de psychomotricité à Rumillies (Tournai).
-C'est un site statique fait avec [Astro](https://astro.build), qui remplace la version Squarespace.
+C'est un site statique fait avec [Astro](https://astro.build).
 
 ## Travailler en local
 
