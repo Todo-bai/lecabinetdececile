@@ -1,0 +1,41 @@
+---
+// Page affichée après l'inscription à la newsletter (adresse de redirection réglée dans Brevo).
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Merci !" newsletter={false}>
+  <meta slot="head" name="robots" content="noindex" />
+  <section class="merci panel">
+    <div class="merci__inner">
+      <p class="eyebrow">Newsletter</p>
+      <h1>Merci !</h1>
+      <p>
+        Votre inscription est bien reçue. Un e-mail de confirmation vient de vous être envoyé : cliquez sur le lien qu’il
+        contient pour recevoir la newsletter. Pensez à regarder dans les courriers indésirables.
+      </p>
+      <p><a class="btn" href="/ateliers/">Voir les ateliers</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .merci {
+    display: grid;
+    place-items: center;
+    min-height: 60vh;
+    margin: 12px 12px clamp(56px, 8vw, 100px);
+    padding: clamp(48px, 7vw, 96px) var(--gutter);
+    background: var(--gradient);
+    text-align: center;
+  }
+  .merci__inner {
+    max-width: 600px;
+  }
+  .merci .eyebrow {
+    color: var(--ink);
+  }
+  .merci p {
+    font-size: 17px;
+    color: var(--ink);
+  }
+</style>

@@ -1,0 +1,196 @@
+---
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import AtelierInfos from "../../components/AtelierInfos.astro";
+import { type Atelier, tousLesAteliers, jourCourt, fin } from "../../ateliers";
+import { site } from "../../site";
+
+export async function getStaticPaths() {
+  const ateliers = await tousLesAteliers();
+  const pages = ateliers.map((a, i) => ({
+    params: { id: a.id },
+    // Liste triée du plus récent au plus ancien.
+    props: { atelier: a, suivant: ateliers[i - 1], precedent: ateliers[i + 1] },
+  }));
+  // Les anciennes adresses Squarespace renvoient vers la nouvelle page.
+  const anciennes = ateliers
+    .filter((a) => a.data.ancienSlug)
+    .map((a) => ({ params: { id: a.data.ancienSlug! }, props: { redirection: `/ateliers/${a.id}/` } }));
+  return [...pages, ...anciennes];
+}
+
+interface Props {
+  atelier?: Atelier;
+  precedent?: Atelier;
+  suivant?: Atelier;
+  redirection?: string;
+}
+const { atelier, precedent, suivant, redirection } = Astro.props;
+if (redirection) return Astro.redirect(redirection, 301);
+
+const a = atelier!;
+const { Content } = await render(a);
+---
+
+<Base title={a.data.titre} description={`${a.data.titre} — atelier au Cabinet de Cécile, Rumillies (Tournai).`} image={a.data.image}>
+  <article class="section fiche-section">
+    <div class="wrap">
+      <a class="fiche__retour" href="/ateliers/">← Tous les ateliers</a>
+      <div class="fiche" data-fin={fin(a).toISOString()}>
+        {a.data.image && <img class="fiche__image" src={a.data.image} alt="" width="1050" height="700" />}
+        <div class="fiche__texte">
+          <p class="eyebrow">Atelier</p>
+          <h1>{a.data.titre}</h1>
+          <p class="fiche__passe" data-passe hidden>Cet atelier a eu lieu. Les prochaines dates sont sur la page des ateliers.</p>
+          <div class="fiche__infos">
+            <AtelierInfos atelier={a} adresseComplete />
+          </div>
+          <div class="fiche__contenu"><Content /></div>
+          <div class="fiche__actions" data-actions>
+            <a class="btn" href={`mailto:${site.email}?subject=${encodeURIComponent(`Inscription : ${a.data.titre}`)}`}>S’inscrire par e-mail</a>
+            <a class="btn btn--outline" href={site.phoneHref}>Appeler le {site.phone}</a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="fiche__nav" aria-label="Autres ateliers">
+        {
+          precedent ? (
+            <a href={`/ateliers/${precedent.id}/`}>
+              <span>← Précédent · {jourCourt(precedent)}</span>
+              <strong>{precedent.data.titre}</strong>
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          suivant && (
+            <a class="fiche__suivant" href={`/ateliers/${suivant.id}/`}>
+              <span>Suivant · {jourCourt(suivant)} →</span>
+              <strong>{suivant.data.titre}</strong>
+            </a>
+          )
+        }
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<script>
+  // Atelier passé : on le signale et on retire les boutons d'inscription.
+  const fiche = document.querySelector<HTMLElement>(".fiche");
+  if (fiche && new Date(fiche.dataset.fin!).getTime() <= Date.now()) {
+    document.querySelector<HTMLElement>("[data-passe]")!.hidden = false;
+    document.querySelector<HTMLElement>("[data-actions]")!.hidden = true;
+  }
+</script>
+
+<style>
+  .fiche-section {
+    padding-top: clamp(32px, 5vw, 56px);
+  }
+  .fiche__retour {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .fiche {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 72px);
+    align-items: start;
+  }
+  .fiche__image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+  .fiche h1 {
+    font-size: clamp(32px, 4vw, 48px);
+  }
+  .fiche__passe {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--yellow-soft);
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+  .fiche__passe[hidden],
+  .fiche__actions[hidden] {
+    display: none;
+  }
+  .fiche__infos {
+    margin: 8px 0 24px;
+    padding: 22px 24px 8px;
+    border-radius: var(--radius);
+    background: var(--peach-soft);
+  }
+  .fiche__contenu {
+    font-size: 16.5px;
+  }
+  .fiche__contenu :global(ul) {
+    padding-left: 22px;
+  }
+  .fiche__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .fiche__nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: clamp(56px, 8vw, 96px);
+  }
+  .fiche__nav a {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 26px;
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+  .fiche__nav a:hover {
+    transform: translateY(-2px);
+  }
+  .fiche__nav span {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--rose);
+  }
+  .fiche__nav strong {
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 1.3;
+  }
+  .fiche__suivant {
+    grid-column: 2;
+    text-align: right;
+  }
+  @media (max-width: 760px) {
+    .fiche,
+    .fiche__nav {
+      grid-template-columns: 1fr;
+    }
+    .fiche__image {
+      position: static;
+    }
+    .fiche__suivant {
+      grid-column: 1;
+    }
+  }
+</style>

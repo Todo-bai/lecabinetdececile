@@ -1,0 +1,221 @@
+/* Styles communs à tout le site. Quicksand est hébergée avec le site (pas d’appel à Google Fonts). */
+
+:root {
+  --ink: #000;
+  --ink-soft: #3b3433;
+  --muted: #7a6b66;
+  --paper: #fffdf9;
+  --white: #fff;
+  --yellow: #fbeb93;
+  --yellow-soft: #fdf5c9;
+  --peach: #fde4d6;
+  --peach-soft: #fff6ee;
+  --lavender-soft: #e7e9fd;
+  --rose: #d9646f;
+  --line: rgba(0, 0, 0, 0.08);
+  --gradient: url("/images/fond-degrade.jpg") center / cover no-repeat;
+  --gradient-css: linear-gradient(120deg, #ee7a86 0%, #f29a7a 45%, #f6c171 100%);
+  --radius: 28px;
+  --radius-sm: 18px;
+  --radius-lg: 36px;
+  --shadow: 0 1px 2px rgba(60, 30, 20, 0.04), 0 12px 40px -12px rgba(60, 30, 20, 0.18);
+  --max: 1160px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --header-h: 84px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+}
+
+body {
+  margin: 0;
+  font-family: "Quicksand Variable", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 0.6em;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+h1 {
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.05;
+}
+h2 {
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.08;
+}
+h3 {
+  font-size: 22px;
+}
+p {
+  margin: 0 0 1em;
+}
+strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+a {
+  color: inherit;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section {
+  padding: clamp(72px, 10vw, 140px) 0;
+}
+.section--tight {
+  padding-top: 0;
+}
+
+/* Grand bloc arrondi en retrait des bords (accueil, bandeaux, rendez-vous…) */
+.panel {
+  margin: 0 12px;
+  border-radius: var(--radius-lg);
+}
+
+/* Boutons en pilule */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  color: var(--white);
+  font: inherit;
+  font-size: 15.5px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.45);
+}
+.btn--outline {
+  background: transparent;
+  color: var(--ink);
+}
+.btn--light {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: transparent;
+  color: var(--ink);
+}
+
+/* Étiquette en pilule */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.chip--glass {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* Petit titre au-dessus des titres de section */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.lead {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.text-link {
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid currentColor;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Apparition douce au défilement.
+   Seulement si JavaScript tourne (classe .js posée dans <head>), sinon tout reste visible. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}

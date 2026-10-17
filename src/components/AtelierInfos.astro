@@ -1,0 +1,78 @@
+---
+import { type Atelier, jourLong, lienCarte, lienGoogleAgenda } from "../ateliers";
+
+interface Props {
+  atelier: Atelier;
+  adresseComplete?: boolean;
+}
+const { atelier, adresseComplete = false } = Astro.props;
+const { lieu, adresse, debut, fin } = atelier.data;
+---
+
+<ul class="infos">
+  <li>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+    <time datetime={atelier.data.date}>{jourLong(atelier)}</time>
+  </li>
+  <li>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+    {debut.replace(":", "h")} – {fin.replace(":", "h")}
+  </li>
+  <li>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" /><circle cx="12" cy="10" r="3" /></svg>
+    <span>
+      {lieu}{adresseComplete && <>, {adresse}</>}
+      {adresseComplete && <a href={lienCarte(atelier)} target="_blank" rel="noopener">Voir sur la carte</a>}
+    </span>
+  </li>
+  {
+    adresseComplete && (
+      <li class="infos__agenda">
+        <a class="chip" href={lienGoogleAgenda(atelier)} target="_blank" rel="noopener">+ Google Agenda</a>
+        <a class="chip" href={`/ateliers/${atelier.id}.ics`}>+ Apple / Outlook (.ics)</a>
+      </li>
+    )
+  }
+</ul>
+
+<style>
+  .infos {
+    list-style: none;
+    margin: 0 0 18px;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+  .infos li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .infos svg {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    fill: none;
+    stroke: var(--rose);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .infos span a {
+    display: inline-block;
+    margin-left: 6px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .infos__agenda {
+    flex-wrap: wrap;
+    gap: 8px !important;
+    margin-top: 8px;
+  }
+  .infos__agenda .chip {
+    border: 1px solid var(--line);
+  }
+</style>

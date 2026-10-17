@@ -1,0 +1,123 @@
+---
+import { render } from "astro:content";
+import AtelierInfos from "./AtelierInfos.astro";
+import { type Atelier, fin, jour, mois } from "../ateliers";
+import { site } from "../site";
+
+interface Props {
+  atelier: Atelier;
+}
+const { atelier: a } = Astro.props;
+const { Content } = await render(a);
+const lien = `/ateliers/${a.id}/`;
+const inscription = `mailto:${site.email}?subject=${encodeURIComponent(`Inscription : ${a.data.titre}`)}`;
+---
+
+<article class="atelier" data-fin={fin(a).toISOString()}>
+  <a class="atelier__image" href={lien} tabindex="-1" aria-hidden="true">
+    {a.data.image ? <img src={a.data.image} alt="" width="1050" height="700" loading="lazy" /> : <span class="atelier__vide" />}
+    <span class="atelier__date">
+      <strong>{jour(a)}</strong>
+      {mois(a)}
+    </span>
+  </a>
+  <div class="atelier__texte">
+    <h3><a href={lien}>{a.data.titre}</a></h3>
+    <AtelierInfos atelier={a} />
+    <div class="atelier__contenu"><Content /></div>
+    <div class="atelier__actions">
+      <a class="btn atelier__inscrire" href={inscription}>S’inscrire par e-mail</a>
+      <a class="text-link" href={lien}>Voir l’atelier →</a>
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Carte bien détachée du fond crème : liseré, ombre marquée, soulèvement au survol */
+  .atelier {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(60, 30, 20, 0.1);
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow:
+      0 2px 4px rgba(60, 30, 20, 0.06),
+      0 18px 40px -16px rgba(60, 30, 20, 0.28);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .atelier:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 2px 4px rgba(60, 30, 20, 0.06),
+      0 26px 50px -18px rgba(60, 30, 20, 0.38);
+  }
+  .atelier__image {
+    position: relative;
+    display: block;
+  }
+  .atelier__image img,
+  .atelier__vide {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    background: var(--gradient);
+  }
+  .atelier__date {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    display: grid;
+    place-items: center;
+    min-width: 58px;
+    padding: 8px 10px;
+    border-radius: 16px;
+    background: var(--white);
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    box-shadow: var(--shadow);
+  }
+  .atelier__date strong {
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  .atelier__texte {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 24px 26px;
+  }
+  h3 {
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+  h3 a {
+    text-decoration: none;
+  }
+  .atelier__contenu {
+    font-size: 15px;
+  }
+  .atelier__contenu :global(ul) {
+    padding-left: 20px;
+  }
+  .atelier__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin-top: auto;
+    padding-top: 6px;
+  }
+  .atelier__inscrire {
+    min-height: 44px;
+    padding: 0 20px;
+    font-size: 14.5px;
+  }
+</style>

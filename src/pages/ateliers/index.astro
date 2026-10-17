@@ -1,0 +1,123 @@
+---
+import Base from "../../layouts/Base.astro";
+import AtelierCarte from "../../components/AtelierCarte.astro";
+import Instagram from "../../components/Instagram.astro";
+import { tousLesAteliers, fin } from "../../ateliers";
+import { site } from "../../site";
+
+// Le tri entre « à venir » et « passés » est fait à la publication, puis
+// corrigé dans le navigateur : un atelier peut être passé depuis la dernière mise à jour.
+const ateliers = await tousLesAteliers();
+const maintenant = Date.now();
+const avenir = ateliers.filter((a) => fin(a).getTime() > maintenant).reverse();
+const passes = ateliers.filter((a) => fin(a).getTime() <= maintenant);
+---
+
+<Base title="Ateliers et évènements" description="Ateliers d’éveil psychomoteur, massage bébé et parentalité au Cabinet de Cécile, à Rumillies (Tournai).">
+  <section class="bandeau panel">
+    <div class="bandeau__inner">
+      <p class="eyebrow">Agenda</p>
+      <h1>Ateliers et évènements</h1>
+      <p class="lead">
+        Éveil moteur, éveil sensoriel, massage bébé : des moments à partager avec votre enfant, en petit groupe, au
+        cabinet de Rumillies.
+      </p>
+      <p class="bandeau__info">Infos et inscriptions par mail, GSM ou message privé sur Instagram.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Prochainement</p>
+      <h2>À venir</h2>
+      <div class="vide" data-vide hidden={avenir.length > 0}>
+        <p>
+          Pas de nouvel atelier programmé pour l’instant. Les prochaines dates sont annoncées sur Instagram et par la
+          newsletter.
+        </p>
+        <div class="vide__actions">
+          <a class="btn" href={site.instagram} target="_blank" rel="noopener"><Instagram size={18} /> Suivre sur Instagram</a>
+          <a class="btn btn--outline" href="#newsletter">Recevoir la newsletter</a>
+        </div>
+      </div>
+      <div class="grille grille--avenir" data-avenir>
+        {avenir.map((a) => <AtelierCarte atelier={a} />)}
+      </div>
+
+      <div class="passes" data-titre-passes hidden={passes.length === 0}>
+        <p class="eyebrow">Archives</p>
+        <h2>Ateliers passés</h2>
+      </div>
+      <div class="grille grille--passes" data-passes>
+        {passes.map((a) => <AtelierCarte atelier={a} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const avenir = document.querySelector<HTMLElement>("[data-avenir]")!;
+  const passes = document.querySelector<HTMLElement>("[data-passes]")!;
+  [...avenir.querySelectorAll<HTMLElement>(".atelier")]
+    .filter((el) => new Date(el.dataset.fin!).getTime() <= Date.now())
+    .reverse()
+    .forEach((el) => passes.prepend(el));
+  document.querySelector<HTMLElement>("[data-vide]")!.hidden = avenir.children.length > 0;
+  document.querySelector<HTMLElement>("[data-titre-passes]")!.hidden = passes.children.length === 0;
+</script>
+
+<style>
+  .bandeau {
+    background: var(--yellow);
+    padding: clamp(48px, 7vw, 88px) var(--gutter);
+    margin-top: 12px;
+  }
+  .bandeau__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .bandeau .eyebrow {
+    color: var(--ink);
+  }
+  .bandeau__info {
+    margin: 0;
+    font-size: 15px;
+  }
+  h2 {
+    margin-bottom: 28px;
+  }
+  .vide {
+    padding: clamp(28px, 4vw, 44px);
+    border-radius: var(--radius);
+    background: var(--peach-soft);
+  }
+  .vide p {
+    max-width: 560px;
+  }
+  .vide__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .grille {
+    display: grid;
+    gap: 24px;
+  }
+  .grille--avenir {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  }
+  .grille--avenir:not(:empty) {
+    margin-bottom: 8px;
+  }
+  .grille--passes {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  }
+  /* On ne s'inscrit pas à un atelier passé */
+  .grille--passes :global(.atelier__inscrire) {
+    display: none;
+  }
+  .passes {
+    margin-top: clamp(64px, 8vw, 110px);
+  }
+</style>

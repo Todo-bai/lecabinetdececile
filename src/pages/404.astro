@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Page introuvable">
+  <section class="introuvable panel">
+    <div class="introuvable__inner">
+      <p class="eyebrow">Erreur 404</p>
+      <h1>Cette page n’existe pas (ou plus).</h1>
+      <p>Elle a peut-être changé d’adresse avec la nouvelle version du site.</p>
+      <div class="introuvable__actions">
+        <a class="btn" href="/">Retour à l’accueil</a>
+        <a class="btn btn--light" href="/ateliers/">Voir les ateliers</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .introuvable {
+    display: grid;
+    place-items: center;
+    min-height: 60vh;
+    margin: 12px 12px clamp(56px, 8vw, 100px);
+    padding: clamp(48px, 7vw, 96px) var(--gutter);
+    background: var(--gradient);
+    text-align: center;
+  }
+  .introuvable__inner {
+    max-width: 620px;
+  }
+  .introuvable .eyebrow,
+  .introuvable p {
+    color: var(--ink);
+  }
+  .introuvable__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+  }
+</style>

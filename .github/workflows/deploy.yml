@@ -1,0 +1,42 @@
+# Vérifie que le site se construit à chaque push sur main, et le publie sur GitHub Pages
+# une fois la variable de dépôt PUBLIER réglée sur « oui » (Settings → Secrets and variables → Actions → Variables).
+name: Publier le site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Reconstruit chaque nuit pour que les ateliers passés basculent aussi sans JavaScript.
+  schedule:
+    - cron: "0 3 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # La reconstruction de nuit ne sert qu'une fois le site publié.
+    if: github.event_name != 'schedule' || vars.PUBLIER == 'oui'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: withastro/action@v3
+        with:
+          node-version: 22
+
+  deploy:
+    needs: build
+    if: vars.PUBLIER == 'oui'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

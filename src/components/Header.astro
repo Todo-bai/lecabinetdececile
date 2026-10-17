@@ -1,0 +1,198 @@
+---
+import Instagram from "./Instagram.astro";
+import { site } from "../site";
+
+const path = Astro.url.pathname;
+const links = [
+  { href: "/", label: "Accueil", active: path === "/" },
+  { href: "/ateliers/", label: "Ateliers", active: path.startsWith("/ateliers") },
+];
+---
+
+<header class="header">
+  <div class="header__inner">
+    <a class="header__title" href="/">{site.name}</a>
+
+    <nav class="header__nav" aria-label="Menu principal">
+      {links.map((l) => <a href={l.href} aria-current={l.active ? "page" : undefined}>{l.label}</a>)}
+    </nav>
+
+    <div class="header__actions">
+      <a class="header__icon" href={site.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+        <Instagram />
+      </a>
+      <a class="btn btn--outline header__cta" href="/#rendez-vous">Prendre un rendez-vous</a>
+    </div>
+
+    <details class="header__burger">
+      <summary aria-label="Ouvrir le menu">
+        <span></span><span></span>
+      </summary>
+      <nav class="header__mobile" aria-label="Menu mobile">
+        {links.map((l) => <a href={l.href} aria-current={l.active ? "page" : undefined}>{l.label}</a>)}
+        <a href={site.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Instagram size={28} /></a>
+        <a class="btn" href="/#rendez-vous">Prendre un rendez-vous</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  // Referme le menu mobile quand on choisit un lien.
+  document.querySelectorAll(".header__mobile a").forEach((a) =>
+    a.addEventListener("click", () => a.closest("details")?.removeAttribute("open")),
+  );
+</script>
+
+<style>
+  /* L'en-tête est une pilule blanche au-dessus du contenu, en retrait des bords, qui flotte au défilement. */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 14px clamp(16px, 5vw, 64px) 0;
+  }
+  .header__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    max-width: 1040px;
+    min-height: 60px;
+    margin: 0 auto;
+    padding: 8px 8px 8px 26px;
+    border-radius: 999px;
+  }
+  /* Le fond est sur un pseudo-élément pour que le menu mobile (position: fixed) couvre tout l'écran. */
+  .header__inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--white);
+    box-shadow:
+      0 1px 2px rgba(60, 30, 20, 0.06),
+      0 10px 30px -14px rgba(60, 30, 20, 0.25);
+  }
+  .header__title {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .header__nav {
+    display: flex;
+    gap: 36px;
+  }
+  .header__nav a {
+    position: relative;
+    padding: 6px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  /* Soulignement qui se dessine au survol */
+  .header__nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gradient-css);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .header__nav a:hover::after,
+  .header__nav a[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+  .header__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+  }
+  .header__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: var(--ink);
+    transition: background 0.2s;
+  }
+  .header__icon:hover {
+    background: var(--peach-soft);
+  }
+  .header__cta {
+    min-height: 44px;
+    padding: 0 22px;
+    background: var(--ink);
+    color: var(--white);
+  }
+  .header__burger {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .header__inner {
+      grid-template-columns: 1fr auto;
+      padding: 8px 18px 8px 22px;
+    }
+    .header__nav,
+    .header__actions {
+      display: none;
+    }
+    .header__burger {
+      display: block;
+    }
+    .header__burger summary {
+      list-style: none;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+    }
+    .header__burger summary::-webkit-details-marker {
+      display: none;
+    }
+    .header__burger summary span {
+      display: block;
+      height: 1.5px;
+      background: var(--ink);
+      transition: transform 0.2s;
+    }
+    .header__burger[open] summary span:first-child {
+      transform: translateY(4.75px) rotate(45deg);
+    }
+    .header__burger[open] summary span:last-child {
+      transform: translateY(-4.75px) rotate(-45deg);
+    }
+    .header__mobile {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .header__mobile a:not(.btn) {
+      text-decoration: none;
+    }
+  }
+</style>

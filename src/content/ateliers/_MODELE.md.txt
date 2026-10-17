@@ -1,0 +1,4 @@
+Pour ajouter un atelier : copier un fichier existant de ce dossier, le renommer
+(AAAA-MM-JJ-nom-de-l-atelier.md), changer titre, date, heures et image,
+puis écrire le texte sous les trois tirets. L'image va dans public/images/ateliers/.
+Les ateliers passés basculent tout seuls dans « Ateliers passés ».

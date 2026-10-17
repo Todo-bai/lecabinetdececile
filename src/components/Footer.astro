@@ -1,0 +1,72 @@
+---
+import Instagram from "./Instagram.astro";
+import { site } from "../site";
+---
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <img class="footer__logo" src="/images/logo-couleur.png" alt="" width="104" height="100" loading="lazy" />
+    <div class="footer__about">
+      <h2>Le cabinet de Cécile</h2>
+      <p>Cabinet de Psychomotricité à Rumillies, Tournai</p>
+      <p class="footer__legal">
+        N° d'entreprise : {site.bce} © {new Date().getFullYear()} – Tous droits réservés -
+        <a href="/mentions-legales/">Mentions légales</a>
+      </p>
+    </div>
+    <div class="footer__contact">
+      <p>(+32) <a href={site.phoneHref}>{site.phone}</a></p>
+      <p><a href={`mailto:${site.email}?subject=Demande%20de%20rendez-vous`}>{site.email}</a></p>
+    </div>
+    <a class="footer__insta" href={site.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+      <Instagram />
+    </a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 56px 0 72px;
+    border-top: 1px solid var(--line);
+  }
+  .footer__inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1.3fr) minmax(0, 1fr) auto;
+    gap: 32px;
+    align-items: start;
+  }
+  .footer__logo {
+    width: 104px;
+    height: auto;
+  }
+  .footer h2 {
+    margin-bottom: 0.3em;
+    font-size: 28px;
+  }
+  .footer p {
+    font-size: 15px;
+  }
+  .footer__legal {
+    font-size: 12.5px !important;
+    color: var(--muted);
+  }
+  .footer__contact {
+    padding-top: 12px;
+  }
+  .footer__insta {
+    display: flex;
+    padding-top: 14px;
+  }
+  @media (max-width: 760px) {
+    .footer__inner {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+      gap: 16px;
+    }
+    .footer__contact,
+    .footer__insta {
+      padding-top: 0;
+    }
+  }
+</style>

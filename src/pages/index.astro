@@ -1,0 +1,318 @@
+---
+import Base from "../layouts/Base.astro";
+import "../styles/accueil.css";
+import { site } from "../site";
+
+const formations = [
+  ["Médiations thérapeutiques", "Massage bébé, massage enfant, Amma assis, yoga bébé, yoga kids, réflexologie plantaire bébé, ateliers multisensoriels, initiation à la Graphopédagogie."],
+  ["Parentalité, éveil & petite enfance", "Conception et animation d’ateliers parentalité, portage physiologique, musique pour la petite enfance, ukulélé."],
+  ["Pédagogies", "Pédagogie Montessori (3–12 ans)."],
+  ["Communication & accessibilité", "Approche Parler / Écouter (Faber & Mazlish), FALC, CNV, VEO, initiation à la LSF, opérants verbaux."],
+  ["Troubles & comportements", "Méthode Barkley, troubles de l’attachement, gestion des risques, accompagnement des troubles du comportement."],
+  ["Sensorialité", "Profil sensoriel de Dunn 2 : évaluation, compréhension et interventions sensorielles en séance et au quotidien."],
+  ["Formations en cours et à venir", "ABA, diplôme universitaire TDAH…"],
+];
+
+const galerie = [1, 2, 3, 4, 5, 6, 7];
+
+const mapQuery = encodeURIComponent(site.address.full);
+const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&z=13&hl=fr&output=embed`;
+const mapLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+const rdvMail = `mailto:${site.email}?subject=Demande%20de%20rendez-vous`;
+const { lat, lon } = site.address;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  name: site.name,
+  description: site.description,
+  url: "https://www.lecabinetdececile.com/",
+  telephone: "+32495338512",
+  email: site.email,
+  image: "https://www.lecabinetdececile.com/images/portrait-cecile.jpg",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Rue de la Solitude 34",
+    postalCode: "7540",
+    addressLocality: "Tournai",
+    addressCountry: "BE",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: lat, longitude: lon },
+  sameAs: [site.instagram],
+};
+---
+
+<Base>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <!-- Accueil -->
+  <section class="hero">
+    <div class="hero__inner">
+      <div class="hero__text">
+        <img class="hero__logo" src="/images/logo-blanc.png" alt="" width="72" height="69" />
+        <p class="chip chip--glass">Psychomotricienne · Rumillies, Tournai</p>
+        <h1>Le cabinet<br />de Cécile</h1>
+        <p class="hero__lead">
+          Un accompagnement individualisé à chaque étape de la vie — de la petite enfance à l’âge adulte — pour soutenir
+          le développement harmonieux du corps et de l’esprit.
+        </p>
+        <div class="hero__buttons">
+          <a class="btn" href="#rendez-vous">Prendre un rendez-vous</a>
+          <a class="btn btn--light" href="#a-propos">En savoir plus</a>
+        </div>
+        <ul class="hero__facts">
+          <li>Nourrissons, enfants, ados, adultes</li>
+          <li>Du lundi au samedi</li>
+          <li>Remboursement partiel mutuelles</li>
+        </ul>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__photo">
+          <img src="/images/portrait-cecile.jpg" alt="Portrait de Cécile, psychomotricienne" width="1050" height="1400" />
+        </div>
+        <svg class="fleur" viewBox="0 0 1 1" aria-hidden="true">
+          <defs>
+            <clipPath id="fleur" clipPathUnits="objectBoundingBox">
+              <path d="M0.09 0.5 A0.1 0.103 -45 0 1 0.5 0.09 A0.103 0.1 -45 0 1 0.91 0.5 A0.1 0.103 -45 0 1 0.5 0.91 A0.103 0.1 -45 0 1 0.09 0.5" />
+            </clipPath>
+          </defs>
+          <rect width="1" height="1" fill="var(--yellow)" clip-path="url(#fleur)" />
+        </svg>
+        <a class="hero__badge" href={site.upbpf} target="_blank" rel="noopener" title="Union Professionnelle Belge des Psychomotriciens Francophones">
+          <img src="/images/logo-upbpf.webp" alt="UPBPF" width="403" height="139" />
+          <span>Membre de l’UPBPF</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- À propos -->
+  <section id="a-propos" class="section">
+    <div class="wrap about">
+      <div class="about__text reveal">
+        <p class="eyebrow">À propos</p>
+        <h2>Une approche humaine du développement</h2>
+        <p class="lead">
+          Je suis <strong>Cécile</strong>, psychomotricienne diplômée de la <strong>Haute École Provinciale du Hainaut (2020)</strong>.
+        </p>
+        <p>
+          J’ai débuté ma carrière au sein d’un <strong>institut médico-éducatif</strong> spécialisé dans <strong>l’autisme</strong>, où j’ai
+          développé des médiations adaptées aux besoins de chacun, en individuel comme en groupe. J’ai pu également
+          travailler auprès des <strong>personnes âgées</strong>, d’<strong>adultes en situation de handicap</strong>, mais aussi
+          <strong>en crèche</strong>.
+        </p>
+        <p>
+          Aujourd’hui, j’accompagne <strong>nourrissons</strong>, <strong>enfants, adolescents et adultes</strong> dans leur développement
+          psychomoteur et au maintien de leur santé. C’est grâce au <strong>bilan psychomoteur</strong> qu’un projet de soins est
+          établi. Ce projet est mis en oeuvre par <strong>des séances individuelles et ou collectives.</strong>
+        </p>
+        <p>
+          Au-delà de mon métier, qui est une véritable passion, je suis l’heureuse maman de deux filles. Ma première
+          grossesse m’a profondément confortée dans mes valeurs et dans mon entrée dans le monde de la
+          <strong>parentalité</strong>, en résonance avec ce que défend la psychomotricité : <strong>le maternage proximal</strong>.
+        </p>
+        <p>
+          Les rendez-vous peuvent être partiellement remboursés par les mutuelles, car je suis
+          <a href={site.upbpf} target="_blank" rel="noopener">membre de l’UPBPF</a> (Union Professionnelle Belge des Psychomotriciens
+          Francophones).
+        </p>
+      </div>
+      <div class="about__formations reveal">
+        <p class="eyebrow">Formations &amp; compétences</p>
+        <ul>
+          {formations.map(([titre, texte]) => (
+            <li>
+              <strong>{titre}</strong>
+              <span>{texte}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ce que je propose -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow">Ce que je propose</p>
+        <h2>Trois façons de vous accompagner</h2>
+      </div>
+      <div class="services">
+        <article class="card reveal">
+          <img src="/images/propose-1.jpg" alt="Séance de psychomotricité au cabinet" width="1142" height="1082" loading="lazy" />
+          <div class="card__body">
+            <span class="card__num">01</span>
+            <h3>Bilan psychomoteur</h3>
+            <p>
+              Le <strong>bilan psychomoteur</strong> évalue le développement de la personne dans les grands domaines que sont les
+              <strong>habiletés motrices</strong>, l’<strong>orientation dans l’espace et le temps</strong>, les
+              <strong>traitements visuo-spatiaux</strong>, l’<strong>attention</strong> et l’<strong>écriture</strong>.
+            </p>
+            <p>
+              Il évalue, chez l’enfant de moins de 3 ans, le <strong>développement posturo-moteur</strong>, la préhension et les
+              coordinations visuo-manuelles, la sociabilité et la communication. Chez l’enfant de plus de 3 ans, le bilan
+              évalue la <strong>motricité globale et fine</strong>, le graphisme et l’écriture, la latéralité, le schéma corporel,
+              l’orientation spatio-temporelle et l’attention.
+            </p>
+          </div>
+        </article>
+        <article class="card card--yellow reveal">
+          <img src="/images/propose-2.jpg" alt="Jeu sensoriel au cabinet" width="1000" height="680" loading="lazy" />
+          <div class="card__body">
+            <span class="card__num">02</span>
+            <h3>Suivi individuel et en groupe</h3>
+            <p>
+              Le projet de soin <strong>s’articule</strong> autour de séances <strong>individuelles</strong> de 30 à 45 min, et
+              <strong>ou collectives</strong> d’1 heure suivant les objectifs dégagés du bilan psychomoteur.
+            </p>
+            <p>
+              Le suivi du bénéficiaire peut se faire en collaboration avec d’autres professionnel.le.s de santé, ce qui
+              constitue un travail pluridisciplinaire autour du <strong>bien-être</strong> du bénéficiaire et de sa famille.
+            </p>
+          </div>
+        </article>
+        <article class="card card--lavender reveal">
+          <img src="/images/ateliers/eveil-marcheurs.jpg" alt="Atelier d’éveil moteur" width="1050" height="700" loading="lazy" />
+          <div class="card__body">
+            <span class="card__num">03</span>
+            <h3>Prévention et éducation</h3>
+            <p>
+              Le travail de <strong>psychomotricien.ne</strong> permet également d’intervenir dans le <strong>champ</strong> de la
+              prévention et de l’éducation. C’est avec joie que je propose des ateliers autour de la
+              <strong>parentalité</strong>, mais également auprès de <strong>structures petite enfance</strong>.
+            </p>
+            <a class="text-link" href="/ateliers/">Voir les ateliers →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Témoignages -->
+  <section class="temoignages">
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        {Array.from({ length: 8 }).map(() => <span>ce que les personnes pensent de mon travail <i>✿</i></span>)}
+      </div>
+    </div>
+    <h2 class="visually-hidden">Ce que les personnes pensent de mon travail</h2>
+    <div class="wrap temoignages__grid">
+      <figure class="quote reveal">
+        <blockquote>
+          <p>
+            Une approche simple mais pas simpliste Cécile est centrée sur le bien être et l'épanouissement de la
+            Personne. Avec plus d'une corde à son arc, Cécile sait utiliser l'approche adequat pour répondre aux besoins
+            de ses accompagné.e.s.
+          </p>
+        </blockquote>
+        <figcaption><span>C</span>Camille L.</figcaption>
+      </figure>
+      <figure class="quote quote--wide reveal">
+        <blockquote>
+          <p>
+            Cécile est une psychomotricienne à la posture professionnelle empreinte d’humilité, elle invite chacun à
+            exprimer et développer son potentiel. Comme l’effet papillon, toutes ses petites actions ont leur
+            importance.
+          </p>
+          <p>Elle sait initier de profonds changements tout en aidant l’autre à prendre conscience de sa valeur et à gagner en confiance.</p>
+          <p>
+            Elle se montre bienveillante, à l’écoute et pleine d’empathie. Capable de s’adapter et de questionner ses
+            pratiques pour proposer la solution la plus juste à chacun, petits et grands, Cécile est une personne
+            solaire et profondément humaine.
+          </p>
+        </blockquote>
+        <figcaption><span>M</span>Mickaël D.</figcaption>
+      </figure>
+      <figure class="quote quote--big reveal">
+        <blockquote>
+          <p>Merci de m’avoir aidé à grandir (et d’avoir ri à mes blagues)</p>
+        </blockquote>
+        <figcaption><span>I</span>Imran</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Galerie -->
+  <section class="section galerie">
+    <div class="wrap galerie__head reveal">
+      <div>
+        <p class="eyebrow">Le cabinet</p>
+        <h2>Un lieu pensé pour se sentir en sécurité, libre de bouger et d’être soi</h2>
+      </div>
+      <div class="galerie__arrows">
+        <button class="round" type="button" data-galerie="-1" aria-label="Photo précédente">←</button>
+        <button class="round" type="button" data-galerie="1" aria-label="Photo suivante">→</button>
+      </div>
+    </div>
+    <ul class="galerie__track">
+      {galerie.map((n) => (
+        <li>
+          <img src={`/images/galerie/cabinet-${n}.jpg`} alt={`Le cabinet, photo ${n}`} width="434" height="435" loading="lazy" />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- Rendez-vous -->
+  <section id="rendez-vous" class="rdv">
+    <div class="rdv__inner">
+      <div class="rdv__card reveal">
+        <p class="eyebrow">Rendez-vous</p>
+        <h2>Prendre rendez-vous</h2>
+        <p class="lead">La prise de rendez-vous est possible par téléphone ou par mail. Consultations du lundi au samedi.</p>
+        <p>
+          Chaque accompagnement débute par un échange bienveillant, afin de définir ensemble les besoins et objectifs
+          spécifiques à chaque personne.
+        </p>
+        <ul class="contact">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" /></svg>
+            <span><small>Téléphone</small><a href={site.phoneHref}>{site.phoneDisplay}</a></span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 6L2 7" /></svg>
+            <span><small>E-mail</small><a href={rdvMail}>{site.email}</a></span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" /><circle cx="12" cy="10" r="3" /></svg>
+            <span><small>Adresse</small>Le cabinet de Cécile, {site.address.street}, {site.address.city}</span>
+          </li>
+        </ul>
+        <div class="rdv__buttons">
+          <a class="btn" href={site.phoneHref}>Appeler</a>
+          <a class="btn btn--outline" href={rdvMail}>Écrire un e-mail</a>
+        </div>
+        <p class="note">
+          <a href={site.upbpf} target="_blank" rel="noopener">Membre de l’UPBPF</a> (Union Professionnelle Belge des
+          Psychomotriciens Francophones), les consultations peuvent être partiellement remboursées par les mutuelles.
+        </p>
+      </div>
+      <div class="rdv__map reveal">
+        <iframe src={mapSrc} title="Plan d’accès au cabinet" loading="lazy"></iframe>
+        <a class="chip" href={mapLink} target="_blank" rel="noopener">Ouvrir dans Google Maps ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Citation -->
+  <section class="section">
+    <div class="wrap citation">
+      <img class="reveal" src="/images/citation.jpg" alt="Enfant debout sur une planche d’équilibre" width="1400" height="931" loading="lazy" />
+      <figure class="citation__box reveal">
+        <blockquote>
+          <p>« Chaque enfant se développe selon son propre rythme, à condition qu’on lui en laisse la liberté. »</p>
+        </blockquote>
+        <figcaption>— Emmi Pikler</figcaption>
+      </figure>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const track = document.querySelector<HTMLElement>(".galerie__track");
+  const step = () => (track?.querySelector("li")?.getBoundingClientRect().width ?? 300) + 20;
+  document.querySelectorAll<HTMLElement>("[data-galerie]").forEach((b) =>
+    b.addEventListener("click", () => track?.scrollBy({ left: Number(b.dataset.galerie) * step(), behavior: "smooth" })),
+  );
+</script>
