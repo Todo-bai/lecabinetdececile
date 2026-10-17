@@ -1,5 +1,5 @@
 # Vérifie que le site se construit à chaque push sur main, et le publie sur GitHub Pages
-# une fois la variable de dépôt PUBLIER réglée sur « oui » (Settings → Secrets and variables → Actions → Variables).
+# quand la variable de dépôt PUBLIER vaut « oui » (Settings → Secrets and variables → Actions → Variables).
 name: Publier le site
 
 on:

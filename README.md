@@ -45,8 +45,3 @@ Le site s'ouvre sur http://localhost:4321. `npm run build` produit la version fi
 
 Les ateliers à venir apparaissent en haut de la page Ateliers et passent seuls dans « Ateliers passés » une fois
 la date dépassée. Les liens Google Agenda et `.ics` sont générés automatiquement.
-
-## Mise en ligne
-
-Le site est publié par GitHub Pages (voir `.github/workflows/deploy.yml`). Les étapes de la première mise en ligne
-et de la bascule du nom de domaine sont décrites dans [MISE-EN-LIGNE.md](MISE-EN-LIGNE.md).
