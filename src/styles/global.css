@@ -13,7 +13,17 @@
   --lavender-soft: #e7e9fd;
   --rose: #d9646f;
   --line: rgba(0, 0, 0, 0.08);
-  --gradient: url("/images/fond-degrade.jpg") center / cover no-repeat;
+  /* Dégradé de la marque : rose à gauche, saumon au centre (zone plus sombre en haut), jaune orangé à droite,
+     avec un grain fin en SVG rendu à la résolution de l'écran (donc jamais agrandi, même sur mobile). */
+  --gradient:
+    url("/images/grain.svg") 0 0 / 160px 160px repeat,
+    radial-gradient(ellipse 34% 48% at 46% 26%, rgba(205, 96, 104, 0.32), transparent 72%),
+    radial-gradient(ellipse 40% 60% at 98% 6%, rgba(255, 214, 92, 0.55), transparent 70%),
+    linear-gradient(98deg, #f9638a 0%, #f77681 22%, #f2876f 44%, #f6a063 62%, #fab45d 80%, #fdc85c 100%);
+  /* Feuilles floutées dans les coins des grands blocs en dégradé */
+  --feuilles:
+    url("/images/feuilles.svg") -3% -6% / clamp(150px, 20vw, 260px) no-repeat,
+    url("/images/feuilles-bas.svg") 103% 106% / clamp(150px, 20vw, 260px) no-repeat;
   --gradient-css: linear-gradient(120deg, #ee7a86 0%, #f29a7a 45%, #f6c171 100%);
   --radius: 28px;
   --radius-sm: 18px;
@@ -22,6 +32,16 @@
   --max: 1160px;
   --gutter: clamp(16px, 4vw, 48px);
   --header-h: 84px;
+}
+
+/* Sur un écran étroit, le dégradé suit la diagonale pour s'étaler sur la hauteur des blocs. */
+@media (max-width: 760px) {
+  :root {
+    --gradient:
+      url("/images/grain.svg") 0 0 / 160px 160px repeat,
+      radial-gradient(ellipse 60% 30% at 40% 30%, rgba(205, 96, 104, 0.28), transparent 72%),
+      linear-gradient(160deg, #f9638a 0%, #f77681 22%, #f2876f 46%, #f6a063 66%, #fab45d 84%, #fdc85c 100%);
+  }
 }
 
 *,

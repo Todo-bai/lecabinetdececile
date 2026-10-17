@@ -14,7 +14,7 @@
   min-height: min(82vh, 760px);
   padding: clamp(48px, 7vw, 96px) clamp(24px, 6vw, 88px);
   border-radius: 36px;
-  background: var(--gradient);
+  background: var(--feuilles), var(--gradient);
   color: var(--ink);
 }
 .hero__logo {
@@ -375,7 +375,7 @@
   gap: 20px;
   padding: clamp(16px, 3vw, 40px);
   border-radius: 36px;
-  background: var(--gradient);
+  background: var(--feuilles), var(--gradient);
 }
 .rdv__card {
   padding: clamp(28px, 4vw, 52px);
