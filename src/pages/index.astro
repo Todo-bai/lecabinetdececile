@@ -38,6 +38,7 @@ const jsonLd = {
     addressCountry: "BE",
   },
   geo: { "@type": "GeoCoordinates", latitude: lat, longitude: lon },
+  areaServed: ["Tournai", "Rumillies", "Wallonie picarde"],
   sameAs: [site.instagram],
 };
 ---
@@ -49,9 +50,9 @@ const jsonLd = {
   <section class="hero">
     <div class="hero__inner">
       <div class="hero__text">
-        <img class="hero__logo" src="/images/logo-blanc.png" alt="" width="72" height="69" />
+        <img class="hero__logo" src="/images/logo-blanc.png" alt="Logo du Cabinet de Cécile" width="72" height="69" />
         <p class="chip chip--glass">Psychomotricienne · Rumillies, Tournai</p>
-        <h1>Le cabinet<br />de Cécile</h1>
+        <h1>Le cabinet<br />de Cécile<span class="visually-hidden">, psychomotricienne à Rumillies (Tournai)</span></h1>
         <p class="hero__lead">
           Un accompagnement individualisé à chaque étape de la vie — de la petite enfance à l’âge adulte — pour soutenir
           le développement harmonieux du corps et de l’esprit.
