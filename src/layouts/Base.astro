@@ -14,7 +14,8 @@ interface Props {
 }
 
 const { title, description = site.description, image = "/images/portrait-cecile.jpg", newsletter = true } = Astro.props;
-const fullTitle = title ? `${title} — ${site.name}` : `${site.name} | Cabinet de psychomotricité à Rumillies, Tournai`;
+// Le titre de l'accueil commence par ce que les gens cherchent : « psychomotricienne » et la ville.
+const fullTitle = title ? `${title} — ${site.name}` : `Psychomotricienne à Tournai (Rumillies) — ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 

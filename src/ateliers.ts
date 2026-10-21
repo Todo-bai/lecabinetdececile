@@ -59,3 +59,45 @@ export function ics(a: Atelier, url: string) {
     "",
   ].join("\r\n");
 }
+
+// Premier paragraphe du texte de l'atelier, sans mise en forme Markdown.
+export function resume(a: Atelier) {
+  const ligne = (a.body ?? "")
+    .split(/\n\s*\n/)
+    .map((p) => p.replace(/\s+/g, " ").trim())
+    // Les listes et la ligne « Infos et inscriptions… » ne décrivent pas l'atelier.
+    .find((p) => p && !p.startsWith("-") && !p.startsWith("Infos"));
+  return ligne ?? "";
+}
+
+export const descriptionAtelier = (a: Atelier) =>
+  `${a.data.titre}, le ${jourLong(a)} de ${a.data.debut.replace(":", "h")} à ${a.data.fin.replace(":", "h")} ` +
+  `au Cabinet de Cécile, psychomotricienne à Rumillies (Tournai). Inscriptions par mail ou téléphone.`;
+
+// Données structurées « événement » (schema.org) pour que Google puisse afficher l'atelier.
+export function evenement(a: Atelier, url: URL) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: a.data.titre,
+    description: resume(a) || descriptionAtelier(a),
+    startDate: debut(a).toISOString(),
+    endDate: fin(a).toISOString(),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    url: url.toString(),
+    ...(a.data.image && { image: [new URL(a.data.image, url).toString()] }),
+    location: {
+      "@type": "Place",
+      name: a.data.lieu,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Rue de la Solitude 34",
+        postalCode: "7540",
+        addressLocality: "Tournai",
+        addressCountry: "BE",
+      },
+    },
+    organizer: { "@type": "Organization", name: "Le Cabinet de Cécile", url: "https://www.lecabinetdececile.com/" },
+  };
+}

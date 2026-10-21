@@ -2,7 +2,7 @@
 export const site = {
   name: "Le Cabinet de Cécile",
   description:
-    "Cabinet de psychomotricité à Rumillies, Tournai (BE), offrant un accompagnement individualisé à chaque étape de la vie.",
+    "Psychomotricienne à Rumillies (Tournai) : bilan psychomoteur, suivi des bébés, enfants, ados et adultes, ateliers parents-enfants. Remboursement partiel mutuelles.",
   phone: "04 95 33 85 12",
   phoneDisplay: "(+32) 04 95 33 85 12",
   phoneHref: "tel:+32495338512",

@@ -14,8 +14,14 @@ const inscription = `mailto:${site.email}?subject=${encodeURIComponent(`Inscript
 ---
 
 <article class="atelier" data-fin={fin(a).toISOString()}>
-  <a class="atelier__image" href={lien} tabindex="-1" aria-hidden="true">
-    {a.data.image ? <img src={a.data.image} alt="" width="1050" height="700" loading="lazy" /> : <span class="atelier__vide" />}
+  <a class="atelier__image" href={lien} tabindex="-1">
+    {
+      a.data.image ? (
+        <img src={a.data.image} alt={a.data.titre} width="1050" height="700" loading="lazy" />
+      ) : (
+        <span class="atelier__vide" />
+      )
+    }
     <span class="atelier__date">
       <strong>{jour(a)}</strong>
       {mois(a)}
