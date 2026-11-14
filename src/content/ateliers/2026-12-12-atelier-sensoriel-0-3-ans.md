@@ -6,6 +6,6 @@ fin: "09:50"
 image: "/images/ateliers/atelier-sensoriel-12-decembre.jpg"
 ---
 
-Un atelier d'éveil sensoriel en groupe pour les enfants de 0 à 3 ans.
+Un atelier d'éveil sensoriel en groupe pour les enfants de 0 à 3 ans. Places limitées à 7 enfants.
 
 Infos et inscriptions par mail, GSM ou MP.
