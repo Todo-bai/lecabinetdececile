@@ -37,7 +37,7 @@ const { Content } = await render(a);
   <article class="section fiche-section">
     <div class="wrap">
       <a class="fiche__retour" href="/ateliers/">← Tous les ateliers</a>
-      <div class="fiche" data-fin={fin(a).toISOString()}>
+      <div class:list={["fiche", { "fiche--sans-image": !a.data.image }]} data-fin={fin(a).toISOString()}>
         {a.data.image && <img class="fiche__image" src={a.data.image} alt={a.data.titre} width="1050" height="700" />}
         <div class="fiche__texte">
           <p class="eyebrow">Atelier</p>
@@ -104,6 +104,10 @@ const { Content } = await render(a);
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: clamp(32px, 6vw, 72px);
     align-items: start;
+  }
+  /* Sans photo, le texte prend toute la largeur au lieu de laisser une colonne vide. */
+  .fiche--sans-image {
+    grid-template-columns: minmax(0, 760px);
   }
   .fiche__image {
     width: 100%;
